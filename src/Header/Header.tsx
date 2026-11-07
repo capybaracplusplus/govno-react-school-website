@@ -30,7 +30,7 @@ Button.defaultProps = {
 function Header() {
     const [isOpen, setIsOpen] = useState(false);
     const clickBtnMenu = () => {
-        setIsOpen(!isOpen);
+        setIsOpen((previousIsOpen) => !previousIsOpen);
     }
     return (
         <header>
@@ -39,7 +39,15 @@ function Header() {
 
                     <img className="mr-0.6" src={faviconSrc} alt="Company Logo"></img>
 
-                    <button id="menu-btn" className="block md:hidden focus:outline-none" onClick={clickBtnMenu}>
+                    <button
+                        id="menu-btn"
+                        type="button"
+                        className="block md:hidden focus:outline-none"
+                        onClick={clickBtnMenu}
+                        aria-label={isOpen ? "Закрыть меню" : "Открыть меню"}
+                        aria-expanded={isOpen}
+                        aria-controls="mobile-menu"
+                    >
                         <svg className="w-8 h-8 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                             xmlns="http://www.w3.org/2000/svg">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
@@ -68,13 +76,17 @@ function Header() {
                             <img src="https://img.icons8.com/?size=50&id=38514&format=png" alt="VK icon"></img>
                         </a>
                     </div>
-                    
+
                 </div>
 
             </nav>
 
             {isOpen && (
-                <div id="mobile-menu" className="md:hidden bg-white shadow-md ">
+                <div
+                    id="mobile-menu"
+                    className="md:hidden bg-white shadow-md"
+                    onClick={() => setIsOpen(false)}
+                >
                     <Button className="block px-4 py-2" name="Главная" link="/" />
                     <Button className="block px-4 py-2" name="О нас" link="/about" />
                     <Button className="block px-4 py-2" name="Обучение" link="/education" />
@@ -92,4 +104,3 @@ function Header() {
 }
 
 export default Header;
-
